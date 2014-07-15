@@ -1,0 +1,51 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#feedback-table").dataTable({
+                "aaSorting": [[ 1, "desc" ]]
+            });
+
+            $('.feedback-table').on('click', 'tr', function () {
+                window.location.href = 'http://travelblogsource.com/internal/feedback/' + $(this).attr('id') + '/';
+            });
+        });
+    </script>
+
+    <div class="row internal-content">
+        <div class="col-md-6 ">
+            <table class="table datasorter feedback-table" id="feedback-table">
+                <thead>
+                    <tr>
+                        <th>Submit Date</th>
+                        <th>Feedback</th>
+                        <th>Topic</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in feedback %}
+                        <tr id="{{ item.id }}">
+                            <td>{{ item.submit_date }}</td>
+                            <td>{{ item.feedback }}</td>
+                            <td>{{ item.get_topic_display }}</td>
+                            <td>{{ item.get_type_display }}</td>
+                            <td>{{ item.get_status_display }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="submission-form-content col-md-5 col-md-offset-1">
+            <form action="" method="post" class="submission-form">
+                <table>
+                  {{ form.as_table }}
+                </table>
+                <input type="submit" class="btn btn-info submission-btn" value="Save Feedback">{% csrf_token %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

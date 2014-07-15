@@ -1,0 +1,203 @@
+{% extends "base/base.html" %}
+{% load blogsearch_extras %}
+
+{% block title %}
+    Travel Blog Search - Search Travel Blogs in {{ search }}
+{% endblock %}
+
+{% block body %}
+<script src="/static/js/blogsearch/search.js"type="text/javascript"></script>
+
+{% csrf_token %}
+<div class="row text-center">
+{% if bannerpic %}
+    <a href="{{ bannerpic.url }}" target="_blank"><img class="banner-pic" id="{{ bannerpic.id }}"
+        src="/media/region/bannerpic/{{ bannerpic.id }}" title="{{ search.image_title }}"/></a>
+{% else %}
+    <img class="banner-pic" src="/media/region/defaultregion.jpg" alt="Travel Blog World" title="Travel Blog World" />
+    <h3 class="banner-pic-text text-center col-md-offset-2 col-md-8">This is the default image.
+        Please <a href="/blogowner/upload/bannerpic/">upload</a> your own pic to improve {{ search }}
+        and gain a link to your site!</h3>
+    </img>
+{% endif %}
+</div>
+
+<div class="region-content">
+    <div class="row text-center jumbotron invert" style="padding: 10px;">
+        <h1>Travel Blogs for {{ search }}</h1>
+    </div>
+
+    <div class="row">
+        <div class="{% if showblogentries %}col-md-6{% else %} col-md-8 col-md-offset-2{% endif %}">
+          <div class="btn-group btn-group-lg" style="margin-bottom:15px;">
+
+            <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading">Travel Blog List</div>
+              <div class="panel-body">
+                <p>Below is the list of travel blogs for {{ search }}. You may sort by fields within the table or search for something specific. You must be logged in to rate - <a href="/accounts/login/?next={{ request.path }}">Login/Register</a>. Enjoy!!</p>
+              </div>
+            </div>
+            {% for blogsite in blogsites %}
+               {% if blogsite.sponsor_type == "TOP" and blogsite.active_sponsor %}
+               <table class="table blog-search-table-top" style="margin-bottom:50px;">
+                 <thead>
+                    <tr>
+                        <th style="width:170px;">Travel Blog Site</th>
+                        <th>Rating</th>
+                        <th>Info</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                        <tr class="search-top">
+                            <td><a href="{{ blogsite.url|safe }}" target="_blank" class="blog-site-link"
+                                            id="{{ blogsite.id }}" rel="nofollow">{{ blogsite.site_name }}</a>
+                                <div class="social-links">
+                                    {% if blogsite.twitter %}
+                                        <a href="http://twitter.com/{{blogsite.twitter}}" target="_blank">
+                                        <img src="/static/img/icons/twitter_blue.jpg"></a>
+                                    {% endif %}
+                                    {% if blogsite.facebook %}
+                                        <a href="http://facebook.com/{{blogsite.facebook}}" target="_blank">
+                                        <img src="/static/img/icons/fb_blue.jpg"></a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td><div id="rating{{ blogsite.id }}" class="rating {% if blogsite.id in rated %}jDisabled{% endif %}" data-average="{{ blogsite.rating_avg }}" data-id="{{ blogsite.id }}"></div></td>
+                            <td>{{ blogsite.quick_info }}</td>
+                        </tr>
+                  </tbody>
+               </table>
+               <!-- Table -->
+               {% endif %}
+            {% endfor %}
+               <table class="table blog-search-table tablesorter" id="region-table">
+                 <thead>
+                    <tr>
+                        <th style="width:170px;">Travel Blog Site</th>
+                        <th>Rating</th>
+                        <th class="hidden">Rating</th>
+                        <th>Info</th>
+                        <!--<th>Register Date</th>-->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for blogsite in blogsites %}
+                        {% if blogsite.sponsor_type != "TOP" or not blogsite.active_sponsor %}
+                            <tr class="{% if blogsite.sponsor_type == "HIGH" and blogsite.active_sponsor %}search-highlight{% endif %}">
+                                <td><a href="{{ blogsite.url }}" target="_blank" class="blog-site-link" id="{{ blogsite.id }}">{{ blogsite.site_name }}</a><br>
+                                    <div class="social-links">
+                                        {% if blogsite.twitter %}
+                                            <a href="http://twitter.com/{{blogsite.twitter}}" target="_blank">
+                                            <img src="/static/img/icons/twitter_blue.jpg"></a>
+                                        {% endif %}
+                                        {% if blogsite.facebook %}
+                                            <a href="http://facebook.com/{{blogsite.facebook}}" target="_blank">
+                                            <img src="/static/img/icons/fb_blue.jpg"></a>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td class="hidden">{{ blogsite.rating_avg }}</td>
+                                <td><div id="rating{{ blogsite.id }}" class="rating {% if not rated%}jDisabled{% endif %}{% if blogsite.id in rated %}jDisabled{% endif %}" data-average="{{ blogsite.rating_avg }}" data-id="{{ blogsite.id }}"></div></td>
+                                <td>{{ blogsite.quick_info }}</td>
+                                <!--<td>{{ blogsite.create_date }}</td>-->
+                            </tr>
+                        {% endif %}
+                    {% empty %}
+                        <p>There are no registered blogsites for this region.</p>
+                    {% endfor %}
+                  </tbody>
+              </table>
+            </div>
+        </div>
+
+        {% if showblogentries %}
+        <div class="col-md-offset-1 col-md-5">
+            <div class="row">
+              <div class="col-md-12">
+                {% if blogentries1 %}
+                <div class="thumbnail">
+                  <a href="/blogsearch/blog/{{ blogentries1.id }}/{{ blogentries1.title|slugify }}/"><img style="height:300px padding-top:15px;" src="{{ blogentries1.image.url }}" alt="{{ blogentries1.image_alt }}" title="{{ blogentries1.image_title }}"></a>
+                  <div class="caption">
+                    <h3>{{ blogentries1.title }}</h3>
+                      <p>{{ blogentries1.headline }}</p>
+                    <p><a href="/blogsearch/blog/{{ blogentries1.id }}/{{ blogentries1.title|slugify }}/" class="btn btn-info">Take me there!</a></p>
+                  </div>
+                </div>
+             </div>
+          </div>
+          {% if blogentries2 %}
+              <div class="row" style="margin-top: 20px;">
+              {% for entry in blogentries2 %}
+                  <div class="col-md-6">
+                    <div class="thumbnail">
+                      <a href="/blogsearch/blog/{{ entry.id }}/{{ entry.title|slugify }}"><img style="height:150px;" src="{{ entry.image.url }}" alt="{{ entry.image_alt }}" title="{{ entry.image_title }}"></a>
+                      <div class="caption">
+                        <h3>{{ entry.title }}</h3>
+                          <p>{{ entry.headline }}</p>
+                        <p><a href="/blogsearch/blog/{{ entry.id }}/{{ entry.title|slugify }}" class="btn btn-info">Take me there!</a></p>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+              </div>
+          {% else %}
+              <h1>There is room for blog posts for {{ search }}.</h1>
+              <p>If you are interested in submitting a blog post for this region, please take a look at <a href="/blogowner/upload/blog/">Upload Blog</a>. For this region it's free and will get your blog exposure!</p>
+          {% endif %}
+          {% if blogentries3 %}
+          <div class="row" style="margin-top:20px;">
+              {% for entry in blogentries3 %}
+              <div class="col-md-4">
+                <div class="thumbnail">
+                  <a href="/blogsearch/blog/{{ entry.id }}/{{ entry.title|slugify }}"><img src="{{ entry.image.url }}" alt="{{ entry.image_alt }}" title="{{ entry.image_title }}"></a>
+                </div>
+              </div>
+              {% endfor %}
+          </div>
+          {% endif %}
+          {% if blogentries2 and not blogentires3 %}
+              <h1>There is room for blog posts for {{ search }}.</h1>
+              <p>If you are interested in submitting a blog post for this region, please take a look at <a href="/blogowner/upload/blog/">Upload Blog</a>. For this region it's free and will get your blog exposure!</p>
+          {% endif %}
+        </div>
+    {% else %}
+        <h1>There are no blog entries for {{ search }}.</h1>
+        <p>If you are interested in submitting a blog post for this region, please take a look at <a href="/blogowner/upload/blog/">Upload Blog</a>. For this region it's free and will get your blog exposure!</p>
+        </div></div>
+    {% endif %}
+    </div>
+    {% endif %}{# end if block for if blog entries #}
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title" id="myModalLabel">
+        {# rated shows if logged in #}
+        {% if rated %}
+            You Already Rated This Blog
+        {% else %}
+            Log In Required
+        {% endif %}</h3>
+      </div>
+      <div class="modal-body">
+        {# rated shows if logged in #}
+        {% if rated %}
+            You may only rate each blog site one time. When the rating stars don't change when you hover over them, that means you are not logged in
+            or that you have already rated that specific blog site.
+        {% else %}
+            <p>After you log in or register you will be able to rate blog sites.</p>
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        {% if not rated %}<a href="/accounts/login/?next={{ request.get_full_path }}"><button type="button" class="btn btn-primary">Log In/Register</button></a>{% endif %}
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{% endblock %}

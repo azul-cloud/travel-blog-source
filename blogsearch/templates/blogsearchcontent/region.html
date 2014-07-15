@@ -1,0 +1,213 @@
+{% extends "base/base.html" %}
+{% load blogsearch_extras %}
+
+{% block title %}
+    Travel Blog World - Search Travel Blogs in {{ region.display_value }}
+{% endblock %}
+
+{% block body %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    window.scrollTo(0,150);
+    $(".rating").jRating();
+    $("#region-table").dataTable();
+
+    $('.blog-site-link').click(function() {
+        id = (this).id
+        //alert("the link for " + id + " was clicked");
+        if( $( this ).closest('tr').hasClass("search-highlight") ) {
+            sponsor = "HIGH"
+        }
+        else if( $( this ).closest('tr').hasClass("search-top") ) {
+            sponsor = "TOP"
+        }
+        else {
+            sponsor = "NONE"
+        }
+
+        $.post(
+           "/blogsearch/blogsiteclick/",
+            {
+				"blog_id" : id,
+				"origin" : "SEARCH",
+				"sponsor" : sponsor
+			},
+            function(data) {
+              alert("Response: " + data);
+            },
+    		'json'
+        );
+    });
+
+    $('.banner-pic').click(function() {
+        id = (this).id
+        sponsor = "BANNER"
+
+        $.post(
+           "/blogsearch/bannerpicclick/",
+            {
+				"banner_pic_id" : id
+			},
+            function(data) {
+              alert("Response: " + data);
+            },
+    		'json'
+        );
+    });
+  });
+</script>
+{% csrf_token %}
+<div class="row text-center">
+        {% if bannerpic %}
+            <a href="{{ bannerpic.url }}"><img class="banner-pic" id="{{ bannerpic.id }}" src="/media/region/bannerpic/{{ bannerpic.id }}" title="{{ region.image_title }}"/></a>
+        {% else %}
+            <img class="banner-pic" src="/media/region/defaultregion.jpg" alt="Travel Blog World" title="Travel Blog World" />
+            <h3 class="banner-pic-text text-center col-md-offset-2 col-md-8">This is the default image. You can <a href="/blogowner/upload/bannerpic/">upload</a> your own pic to improve {{ region.display_value }} and increase your traffic!</h3>
+            </img>
+        {% endif %}
+</div>
+
+<div class="region-content">
+    <div class="row text-center jumbotron" style="padding: 10px;">
+        <h1>Travel Blogs for {{ region.display_value }}</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+              <div class="col-md-12">
+                {% if blogentries1 %}
+                <div class="thumbnail">
+                  <a href="/blogsearch/blog/{{ blogentries1.id }}/{{ blogentries1.title|slugify }}/"><img style="height:300px padding-top:15px;" src="{{ blogentries1.image.url }}" alt="{{ blogentries1.image_alt }}" title="{{ blogentries1.image_title }}"></a>
+                  <div class="caption">
+                    <h3>{{ blogentries1.title }}</h3>
+                      <p>{{ blogentries1.headline }}</p>
+                    <p><a href="/blogsearch/blog/{{ blogentries1.id }}/{{ blogentries1.title|slugify }}/" class="btn btn-info">Take me there!</a></p>
+                  </div>
+                </div>
+             </div>
+          </div>
+          {% if blogentries2 %}
+              <div class="row" style="margin-top: 20px;">
+              {% for entry in blogentries2 %}
+                  <div class="col-md-6">
+                    <div class="thumbnail">
+                      <a href="/blogsearch/blog/{{ entry.id }}/{{ entry.title|slugify }}"><img style="height:150px;" src="{{ entry.image.url }}" alt="{{ entry.image_alt }}" title="{{ entry.image_title }}"></a>
+                      <div class="caption">
+                        <h3>{{ entry.title }}</h3>
+                          <p>{{ entry.headline }}</p>
+                        <p><a href="/blogsearch/blog/{{ entry.id }}/{{ entry.title|slugify }}" class="btn btn-info">Take me there!</a></p>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+              </div>
+          {% else %}
+              <h1>There is room for blog posts for {{ region.display_value }}.</h1>
+              <p>If you are interested in submitting a blog post for this region, please take a look at <a href="/blogowner/upload/blog/">Upload Blog</a>. For this region it's free and will get your blog exposure!</p>
+          {% endif %}
+          {% if blogentries3 %}
+          <div class="row" style="margin-top:20px;">
+              {% for entry in blogentries3 %}
+              <div class="col-md-4">
+                <div class="thumbnail">
+                  <a href="/blogsearch/blog/{{ entry.id }}/{{ entry.title|slugify }}"><img src="{{ entry.image.url }}" alt="{{ entry.image_alt }}" title="{{ entry.image_title }}"></a>
+                </div>
+              </div>
+              {% endfor %}
+          </div>
+          {% endif %}
+          {% if blogentries2 and not blogentires3 %}
+              <h1>There is room for blog posts for {{ region.display_value }}.</h1>
+              <p>If you are interested in submitting a blog post for this region, please take a look at <a href="/blogowner/upload/blog/">Upload Blog</a>. For this region it's free and will get your blog exposure!</p>
+          {% endif %}
+        </div>
+    {% else %}
+        <h1> There are no blog entries for {{ region.display_value }}.</h1>
+        <p>If you are interested in submitting a blog post for this region, please take a look at <a href="/blogowner/upload/blog/">Upload Blog</a>. For this region it's free and will get your blog exposure!</p>
+        </div></div></div>
+    {% endif %}
+
+        <div class="col-md-offset-1 col-md-6">
+            <div class="btn-group btn-group-lg" style="margin-bottom:15px;">
+
+            <div class="panel panel-default">
+              <!-- Default panel contents -->
+              <div class="panel-heading">Travel Blog List</div>
+              <div class="panel-body">
+                <p>Below is the list of travel blogs for {{ region.display_value }}. You may sort by fields within the table or search for something specific. You must be logged in to rate - <a href="/accounts/login/?next={{ request.path }}">Login/Register</a>. Enjoy!!</p>
+              </div>
+            </div>
+            {% for blogsite in blogsites %}
+               {% if blogsite.sponsor_type == "TOP" and blogsite.active_sponsor %}
+               <table class="table blog-search-table-top" style="margin-bottom:50px;">
+                 <thead>
+                    <tr>
+                        <th style="width:170px;">Travel Blog Site</th>
+                        <th>Rating</th>
+                        <th>Info</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                        <tr class="search-top">
+                            <td><a href="http://{{ blogsite.url }}" target="_blank" class="blog-site-link" id="{{ blogsite.id }}">{{ blogsite.site_name }}</a>
+                                <div class="social-links">
+                                    {% if blogsite.twitter %}
+                                        <a href="http://twitter.com/{{blogsite.twitter}}" target="_blank">
+                                        <img src="/static/img/icons/twitter_blue.jpg"></a>
+                                    {% endif %}
+                                    {% if blogsite.facebook %}
+                                        <a href="http://facebook.com/{{blogsite.facebook}}" target="_blank">
+                                        <img src="/static/img/icons/fb_blue.jpg"></a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td><div id="rating{{ blogsite.id }}" class="rating {% if blogsite.id in rated %}jDisabled{% endif %}" data-average="{{ blogsite.rating_avg }}" data-id="{{ blogsite.id }}"></div></td>
+                            <td>{{ blogsite.quick_info }}</td>
+                        </tr>
+                  </tbody>
+               </table>
+               <!-- Table -->
+               {% endif %}
+            {% endfor %}
+               <table class="table blog-search-table tablesorter" id="region-table">
+                 <thead>
+                    <tr>
+                        <th style="width:170px;">Travel Blog Site</th>
+                        <th>Rating</th>
+                        <th class="hidden">Rating</th>
+                        <th>Info</th>
+                        <!--<th>Register Date</th>-->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for blogsite in blogsites %}
+                        {% if blogsite.sponsor_type != "TOP" or not blogsite.active_sponsor %}
+                            <tr class="{% if blogsite.sponsor_type == "HIGH" and blogsite.active_sponsor %}search-highlight{% endif %}">
+                                <td><a href="{{ blogsite.url|safe }}" target="_blank" class="blog-site-link" id="{{ blogsite.id }}">{{ blogsite.site_name }}</a><br>
+                                    <div class="social-links">
+                                        {% if blogsite.twitter %}
+                                            <a href="http://twitter.com/{{blogsite.twitter}}" target="_blank">
+                                            <img src="/static/img/icons/twitter_blue.jpg"></a>
+                                        {% endif %}
+                                        {% if blogsite.facebook %}
+                                            <a href="http://facebook.com/{{blogsite.facebook}}" target="_blank">
+                                            <img src="/static/img/icons/fb_blue.jpg"></a>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td class="hidden">{{ blogsite.rating_avg }}</td>
+                                <td><div id="rating{{ blogsite.id }}" class="rating {% if blogsite.id in rated %}jDisabled{% endif %}" data-average="{{ blogsite.rating_avg }}" data-id="{{ blogsite.id }}"></div></td>
+                                <td>{{ blogsite.quick_info }}</td>
+                                <!--<td>{{ blogsite.create_date }}</td>-->
+                            </tr>
+                        {% endif %}
+                    {% empty %}
+                        <p>There are no registered blogsites for this region.</p>
+                    {% endfor %}
+                  </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

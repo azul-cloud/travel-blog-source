@@ -1,0 +1,30 @@
+{% extends "base/base.html" %}
+
+{% block title %}Register your Travel Blog Site{% endblock %}
+
+{% block body %}
+<script src="/static/js/blogowner/register.js"></script>
+
+<div class="submission-form-content row">
+  <div class="col-md-offset-1 col-md-5">
+    <h1>Register Your Travel Blog</h1>
+      <form action="" method="post" class="submission-form">
+            <table>
+                {{ form.non_field_errors }}
+                {% for field in form %}
+                    <tr class="fieldWrapper">
+                        <td class="input-group">
+                        {{ field }}</td>
+                        <td>{{ field.errors }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        <input type="submit" class="btn btn-info submission-btn" value="Register Travel Blog">{% csrf_token %}
+      </form>
+  </div>
+
+  <div class="col-md-3 submission-form-help">
+    By registering your site, you will show up for users searching for specific types of travel blogs. You will gain free exposure, and receive new readers to your site risk-free. It's that simple!
+  </div>
+</div>
+{% endblock %}

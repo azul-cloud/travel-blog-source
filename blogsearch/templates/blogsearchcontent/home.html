@@ -1,0 +1,95 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+<script type="text/javascript" src="/static/js/blogsearch/home.js"></script>
+
+<div class="search-choice-initial text-center" style="margin-top:100px;">
+    <div id="search-header-text" class="row" style="margin-bottom: 40px;">
+        <h1>How would you like to search?</h1>
+    </div>
+    <div class="row">
+        <button type="button" class="btn btn-info search-choice-btn" id="region"
+        data-toggle="tooltip" data-html=true data-placement="bottom"
+        title="<h4>Search by continent or country</h4>">Search by Region</button>
+
+        <button type="button" class="btn btn-info search-choice-btn" id="category"
+        data-toggle="tooltip" data-html=true data-placement="bottom"
+        title="<h4>Search by categories such as RTW, Family Travel, Working Traveler, etc</h4>">Search by Category</button>
+
+        <button type="button" class="btn btn-info search-choice-btn" id="text"
+        data-toggle="tooltip" data-html=true data-placement="bottom"
+        title="<h4>Search for text that blog owners have supplied in their description and title</h4>">Search by Text</button>
+    </div>
+</div>
+
+<div class="row hidden" id="search-text-section">
+    <div id="search-input" class="input-group input-group-xlg col-md-offset-3 col-md-6">
+        <input type="text" id="search-input-control" class="form-control" placeholder="What are you looking for?">
+        <span class="input-group-addon"><span id="search-go" class="glyphicon glyphicon-search"></span></span>
+    </div>
+</div>
+
+<div class="search-row hidden">
+    <div class="row search-content">
+        <div class="row">
+            <div class="hidden col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4" id="category-section">
+                <div class="row">
+                    <h2>Pick a Category</h2>
+                </div>
+                <div class="row list-group">
+                    {% for category in categories %}
+                        <a href="#" id="{{ category.value }}" class="category-group-item list-group-item">{{ category.display_value }}
+                        <span class="badge">{{ category.blog_site_count }}</span></a>
+                    {% empty %}
+                        There are no categories! What's up?
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="hidden" id="region-section">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-4 col-md-8 col-md-offset-4">
+                        <div class="row">
+                            <h2>Pick a Continent</h2>
+                        </div>
+
+                        <div class="row list-group col-sm-6 col-md-6">
+                          {% for continent in continents %}
+                            <a href="#" id="{{ continent.value }}" class="continent-group-item list-group-item">{{ continent.display_value }}
+                            <span class="badge">{{ continent.blog_continent_count }}</span></a>
+                          {% empty %}
+                            There are no continents installed?
+                          {% endfor %}
+                        </div>
+
+                        <div class="hidden col-sm-4 col-sm-offset-1 col-md-4 col-md-offset-1" id="search-choice">
+                            <div style="margin-left: -15px;">
+                              <p><h4 id="country-text"><span class="glyphicon glyphicon-asterisk"></span>  If a country does not appear, there are no registered blogs.</h4></li></p>
+                              <p><h4 id="country-text"><span class="glyphicon glyphicon-asterisk"></span>  If you would like the whole continent, just hit the button below the continent list.</h4></p>
+                              <button type="button" class="btn btn-default btn-lg dropdown-toggle" style="margin-left:0" data-toggle="dropdown">
+                                Select Country <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu" role="menu">
+                                {% for country in countries %}
+                                <li><a href="/blogsearch/region/{{ country.value }}/" class="{{ country.continent }} hidden country-item">
+                                {{ country.display_value }}   <span class="badge pull-right">{{ country.blog_site_count }}</span></a></li>
+                                {% empty %}
+                                <li>there are no countries??</li>
+                                {% endfor %}
+                              </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!--end region-section-->
+        </div><!--end row-->
+
+        <div class="row text-center hidden" id="div-go-btn" style="margin-top:15px;">
+            <a href="/blogsearch/" id="go-btn">
+            <button type="button" href="" class="btn btn-info search-choice-btn">
+            <h4>Search</h4></button></a>
+        </div>
+    </div> <!--end search-content-->
+</div>
+{% endblock %}

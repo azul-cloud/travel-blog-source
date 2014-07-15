@@ -1,0 +1,174 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+<body>
+<script type="text/javascript" src="/static/js/reports.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".report-table").dataTable();
+  })
+</script>
+<script>
+    $(document).ready(function(){
+        var s1 = {{ normal }};
+        var s2 = {{ highlight }};
+        var s3 = {{ top }};
+        var s4 = {{ blog }};
+        // Can specify a custom tick Array.
+        // Ticks should match up one for each y value (category) in the series.
+        var ticks = {{ months|safe }} ;
+
+        var plot1 = $.jqplot('blogclicks', [s1, s2, s3, s4], {
+            // The "seriesDefaults" option is an options object that will
+            // be applied to all series in the chart.
+            seriesDefaults:{
+                renderer:$.jqplot.BarRenderer,
+                rendererOptions: {fillToZero: true}
+            },
+            // Custom labels for the series are specified with the "label"
+            // option on the series option.  Here a series option object
+            // is specified for each series.
+            series:[
+                {label:'Normal'},
+                {label:'Highlight'},
+                {label:'Top'},
+                {label:'Blog Post'}
+            ],
+            // Show the legend and put it outside the grid, but inside the
+            // plot container, shrinking the grid to accomodate the legend.
+            // A value of "outside" would not shrink the grid and allow
+            // the legend to overflow the container.
+            legend: {
+                show: true,
+                placement: 'outsideGrid'
+            },
+            title: 'All Blog Site Clicks',
+            axes: {
+                // Use a category axis on the x axis and use our custom ticks.
+                xaxis: {
+                    renderer: $.jqplot.CategoryAxisRenderer,
+                    ticks: ticks
+                },
+                // Pad the y axis just a little so bars can get close to, but
+                // not touch, the grid boundaries.  1.2 is the default padding.
+                yaxis: {
+                    pad: 1.05,
+                    tickOptions: {formatString: '%d'},
+                    min: 0
+                }
+            }
+        });
+    });
+</script>
+{% include "reportsinclude/reportjs.html" %}
+{% include "reportsinclude/reportheader.html" %}
+<div class="container">
+    <div class="row">
+        <div class="report-content">
+            <div class="col-md-1">
+                <div class="btn-group-vertical report-nav">
+                  <button id="btn-1" type="button" class="btn btn-info btn-report active">Blog Site Clicks</button>
+                  <button id="btn-2" type="button" class="btn btn-info btn-report">Blog Post Clicks</button>
+                  <button id="btn-3" type="button" class="btn btn-info btn-report">Blogs Per Region</button>
+                  <button id="btn-4" type="button" class="btn btn-info btn-report">Sponsorships</button>
+                </div>
+            </div>
+            <!--Regional General Stats -->
+            <div id="report-1" class="col-md-8 col-md-offset-1 report-section">
+                <div id="blogclicks" style="width:600px; height:250px;"></div>
+            </div>
+            <!--Blogs Post Views -->
+            <div id="report-2" class="col-md-8 col-md-offset-1 report-section hidden">
+                <table class="table report-table tablesorter" id="blog-post-table">
+                    <thead>
+                        <tr>
+                            <th>Blog Entry</th>
+                            <th>Region</th>
+                            <th>Total Views</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for blogentry in blogentries %}
+                        <tr>
+                            <td>{{ blogentry.title }}</td>
+                            <td>{{ blogentry.region }}</td>
+                            <td>{{ blogentry.views }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!--Blogs Per Region -->
+            <div id="report-3" class="col-md-8 col-md-offset-1 report-section hidden">
+                <table class="table report-table tablesorter" id="blog-search-table">
+                    <thead>
+                        <tr>
+                            <th>Blog Entry</th>
+                            <th>Total Blog Sites</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for blogsitecountry in blogsitecountries %}
+                        <tr>
+                            <td style="float:right;">{{ blogsitecountry.region__display_value }}</td>
+                            <td>{{ blogsitecountry.count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- Sponsorship Report -->
+            <div id="report-4" class="col-md-8 col-md-offset-1 report-section hidden">
+                <h3>Active Sponsorships</h3>
+                <table class="table report-table tablesorter" id="blog-valid-sponsor-table">
+                    <thead>
+                        <tr>
+                            <th>Blog Site</th>
+                            <th>Sponsor Type</th>
+                            <th>Sponsor Begin Date</th>
+                            <th>Sponsor End Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for blog in sponsor_blogs %}
+                        {% if blog.active_sponsor %}
+                        <tr>
+                            <td>{{ blog.site_name }}</td>
+                            <td>{{ blog.sponsor_type }}</td>
+                            <td>{{ blog.sponsor_begin_date }}</td>
+                            <td>{{ blog.sponsor_end_date }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <h3>Inactive Sponsorships</h3>
+                <table class="table report-table tablesorter" id="blog-invalid-sponsor-table">
+                    <thead>
+                        <tr>
+                            <th>Blog Site</th>
+                            <th>Sponsor Type</th>
+                            <th>Sponsor Begin Date</th>
+                            <th>Sponsor End Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for blog in sponsor_blogs %}
+                        {% if not blog.active_sponsor %}
+                        <tr>
+                            <td>{{ blog.site_name }}</td>
+                            <td>{{ blog.sponsor_type }}</td>
+                            <td>{{ blog.sponsor_begin_date }}</td>
+                            <td>{{ blog.sponsor_end_date }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+{% endblock %}

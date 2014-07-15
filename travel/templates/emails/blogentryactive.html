@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <div id="email-body" style="padding: 20px; border: solid 5px #5bc0de; border-radius: 4px;">
+        <img style="text-align: center;" src="{{ webURLroot }}/static/img/icons/tbs_logo.jpg"/>
+        <h1>Congratulations {{ blogentry.user }}!</h1>
+        <p>
+        We have reviewed and accepted your blog entry article - {{ blogentry.title }}.
+        It will become active on {{ blogentry.active_date }} and you can find it on the region page for
+        <a href="{{ webURLroot }}blogsearch/region/{{ blogentry.region.value }}/">{{ blogentry.region.display_value }}</a>.
+        </p>
+    </div>
+</body>
+</html>

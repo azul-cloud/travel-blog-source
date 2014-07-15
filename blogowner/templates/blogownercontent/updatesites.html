@@ -1,0 +1,29 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-offset-1 col-md-6">
+    {% if sent %}
+    <div class="alert alert-success" style="margin-top:15px;">Your Travel Blog has been successfully updated.</div>
+    {% endif %}
+    <h1>Update Info for Travel Blog</h1>
+      <form action="" method="post" class="submission-form">
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" style="display:inline;" class="btn btn-info submission-btn" value="Update Blog Site" name="update">{% csrf_token %}
+      </form>
+    </div>
+    <div class="col-md-4">
+        {% if blogsites|length > 1 %}
+            <h1>Update another site</h1>
+            {% for blogsite in blogsites %}
+                <h3><a href="/blogowner/updatesites/{{ blogsite.id }}/">{{ blogsite.site_name }}</a></h3>
+            {% empty %}
+                <p>You don't have any registered sites :-(</p>
+                <p>To register, go to the <a href="/blogowner/register/">Register page.</a></p>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

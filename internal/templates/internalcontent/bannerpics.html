@@ -1,0 +1,38 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+
+<div class="internal-content">
+    <div class="row">
+        <div class="col-md-3 col-md-offset-1">
+            These are the new pics:<br>
+            {% for pic in new %}
+                <a href="/internal/bannerpics/{{ pic.id }}/">{{ pic.region }} -  {{ pic.title }}</a><br>
+            {% endfor %}
+
+            <br>
+            These are the multiple active pics:<br>
+            {% for pic in multiple_regions %}
+                {{ pic.region__display_value }} - {{ pic.region_count }}<br>
+            {% endfor %}
+            {% for pic in multiple_cats %}
+                {{ pic.category__display_value }} - {{ pic.category_count }}<br>
+            {% endfor %}
+        </div>
+        <div class="col-md-7 col-md-offset-1 submission-form-content">
+            <div class="col-md-offset-1 col-md-5">
+                <img src="/media/region/bannerpic/{{ singlepic.id }}" style="width: 100%;"/>
+                <form action="" method="post" class="submission-form">
+                    <table>
+                      {{ form.as_table }}
+                    </table>
+                    <input type="submit" class="btn btn-info submission-btn" value="Save Banner Pic">{% csrf_token %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

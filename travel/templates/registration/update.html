@@ -1,0 +1,18 @@
+{% extends "base/base.html" %}
+
+{% block title %}Update Account{% endblock %}
+
+{% block body %}
+<div class="submission-form-content row">
+  <div class="col-md-offset-1 col-md-5">
+    <h1>Update Account</h1>
+      <form action="" method="post" class="submission-form register-form">
+        <table>
+          {{ form.as_table }}
+        </table>
+        <h4><a href="/accounts/password/">Change Password</a></h4>
+        <input type="submit" class="btn btn-info submission-btn" value="Update Account">{% csrf_token %}
+      </form>
+  </div>
+</div>
+{% endblock %}

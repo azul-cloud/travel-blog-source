@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <div id="email-body" style="padding: 20px; border: solid 5px #5bc0de; border-radius: 4px;">
+        <img style="text-align: center;" src="{{ webURLroot }}/static/img/icons/tbs_logo.jpg"/>
+        <h1>Congratulations {{ blogsite.blog_owner.first_name }}!</h1>
+        <p>Your blogsite, {{ blogsite.site_name }}, has been approved.
+            {# can have region, category, both, or none #}
+            {% if blogsite.region or blogsite.category %}You can see your blogsite on the search page for
+                {% if blogsite.region and not blogsite.category %}<a href="{{ webURLroot }}/blogsearch/region/{{ blogsite.region.value }}/">{{ blogsite.region.display_value }}</a>{% endif %}
+                {% if blogsite.category and not blogsite.region %}<a href="{{ webURLroot }}/blogsearch/category/{{ blogsite.category.value }}/">{{ blogsite.category.display_value }}</a>{% endif %}
+                {% if blogsite.region and blogsite.category %}<a href="{{ webURLroot }}/blogsearch/region/{{ blogsite.region.value }}/">{{ blogsite.region.display_value }}</a> and <a href="{{ webURLroot }}/blogsearch/category/{{ blogsite.category.value }}/">{{ blogsite.category.display_value }}</a>{% endif %}
+            {% endif %}
+        </p>
+    </div>
+</body>
+</html>

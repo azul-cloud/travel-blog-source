@@ -1,0 +1,143 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+{% include "blogownerinclude/dojo-editor.html" %}
+
+{% if type == "blog" %}
+<script>
+$(document).ready(function(){
+  $( "#id_title" ).focus(function () {
+    $( ".form-help-content" ).text("What is the name of your article?");
+  })
+
+  $( "#id_headline" ).focus(function () {
+    $( ".form-help-content" ).text("This will appear next to your photo image on the region pages");
+  })
+
+  $( "#id_body" ).focus(function () {
+    $( ".form-help-content" ).text("Enter the body of the post you would like to share");
+  })
+
+  $( "#id_image" ).focus(function () {
+    $( ".form-help-content" ).text("The image will be used on the region search page, as well as at the top of the blog post");
+  })
+
+  $( "#id_image_title" ).focus(function () {
+    $( ".form-help-content" ).text("What is the picture of?");
+  })
+
+  $( "#id_blog_site" ).focus(function () {
+    $( ".form-help-content" ).text("If you have a registered blog site, use it. We will take the twitter, facebook, and blog site URL and display them in the post.");
+  })
+
+  $( "#id_country" ).focus(function () {
+    $( ".form-help-content" ).text("Select a country if you'd like this blog post to be shown on a country page");
+  })
+
+  $( "#id_continent" ).focus(function () {
+    $( ".form-help-content" ).text("Select a continent if you'd like this blog post to be shown on a continent page");
+  })
+});
+</script>
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-6">
+    <h1>Upload a Blog Entry</h1>
+      <form action="" method="post" enctype="multipart/form-data" class="submission-form">
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" style="display:inline;" class="btn btn-info submission-btn" value="Submit Blog Post" name="update">{% csrf_token %}
+      </form>
+    </div>
+    <div class="col-md-offset-1 col-md-3">
+        <div class="form-help">
+            <h4>General Info</h4>
+            <p class="form-help-header">
+                We will review each blog article for content and style to make sure
+                that it fits the style guidelines provided. Our goal is to help you and there will be links to your Twitter, Facebook, and blogsite by
+                default within the blog article (please do not supply them in your article).
+            </p>
+            <h3 class="form-help-content"></h3>
+        </div>
+    </div>
+</div>
+{% else %}
+    {% if type == "bannerpic" %}
+        <script>
+            $(document).ready(function(){
+              $( "#id_title" ).focus(function () {
+                $( ".form-help-content" ).text("What is your picture showing?");
+              })
+
+              $( "#id_image" ).focus(function () {
+                $( ".form-help-content" ).text("The guidelines are very strict for banner pics because they are highly visible and critical to design. They MUST be wide images with at least a 3:1 ratio. You WILL need to crop your image to fit this guideline. Also, the image needs to be at least 800 pixels wide.");
+              })
+
+              $( "#id_country" ).focus(function () {
+                $( ".form-help-content" ).text("What country is this picture relevant to?");
+              })
+
+              $( "#id_continent" ).focus(function () {
+                $( ".form-help-content" ).text("What continent is this picture relevant to?");
+              })
+
+              $( "#id_url" ).focus(function () {
+                $( ".form-help-content" ).text("When users click on the image, they will be taken to the URL provided.");
+              })
+            });
+        </script>
+        <div class="row-fluid">
+            <div class="col-md-offset-1 col-md-6">
+            {% if sent %}
+            <div class="alert alert-success" style="margin-top: 20px;">Your Banner Picture has been uploaded successfully.</div>
+            {% endif %}
+            <h1>Upload a Banner Picture</h1>
+              <form action="" method="post" enctype="multipart/form-data" class="submission-form">
+                <table>
+                    {{ form.as_table }}
+                </table>
+                <input type="submit" style="display:inline;" class="btn btn-info submission-btn" value="Submit Banner Picture" name="update">{% csrf_token %}
+              </form>
+            </div>
+            <div class="col-md-offset-1 col-md-3">
+                <div class="form-help">
+                    <h4>General Info</h4>
+                    <p class="form-help-header">
+                        Banner Pictures are shown at the top of each search page and provide highly visible pictures that can direct users to your site.
+                    </p>
+                    <h3 class="form-help-content"></h3>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="jumbotron text-center"><h1>What do you want to upload?</h1></div>
+            <div class="row">
+                <div class="col-md-3 col-md-offset-2 text-center">
+                    <div class="panel panel-default">
+                      <div class="panel-heading"><b>Guest Blog Post</b></div>
+                      <div class="panel-body">
+                       We review region specific Guest Blog Posts to help out blog owners attract more region-specific
+                        traffic. If you have any questions while submitting the post, please <a href="/contact/">let us know</a>!
+                        <a href="/blogowner/upload/blog/" class="btn btn-info panel-btn">Take me there</a>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-md-offset-2 text-center">
+                    <div class="panel panel-default">
+                      <div class="panel-heading"><b>Banner Pic</b></div>
+                      <div class="panel-body">
+                        Banner Pictures appear at the top of each region. You'll see a blue world pic which is
+                        the default. All regions with the default pic offer a chance for you to upload your own picture,
+                        and can have a link to your blog site to help boost region-specific traffic. Upload your pics
+                        to boost traffic!
+                        <a href="/blogowner/upload/bannerpic/" class="btn btn-info panel-btn">Take Me There</a>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+{% endblock %}

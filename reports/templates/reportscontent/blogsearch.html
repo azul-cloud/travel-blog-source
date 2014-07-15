@@ -1,0 +1,85 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+<body>
+<script type="text/javascript" src="/static/js/reports.js"></script>
+
+{% include "reportsinclude/reportheader.html" %}
+<div class="container">
+    <div class="row">
+        <div class="report-content">
+            <div class="col-md-1">
+                <div class="btn-group-vertical report-nav">
+                  <button id="btn-1" type="button" class="btn btn-info btn-report active">Region Search Statistics</button>
+                  <button id="btn-2" type="button" class="btn btn-info btn-report">Category Search Statistics</button>
+                </div>
+            </div>
+            <!--Regional General Stas -->
+            <div id="report-1" class="report-section">
+                <div class="col-md-4 col-md-offset-2">
+                  <!-- Table -->
+                  <table class="table blog-search-table">
+                    <tr>
+                        <th>Continent</th>
+                        <th>Blog Sites</th>
+                        <th>Views</th>
+                    </tr>
+                    {% for continent in continents %}
+                    <tr>
+                        <td>{{ continent.display_value }}</td>
+                        <td>{{ continent.blog_site_count }}</td>
+                        <td>{{ continent.views }}</td>
+                    </tr>
+                    {% empty %}
+                        <p>There are no continents.</p>
+                    {% endfor %}
+                  </table>
+                </div>
+                <div class="col-md-4 col-md-offset-1">
+                  <!-- Table -->
+                  <table class="table blog-search-table">
+                    <tr>
+                        <th>Country</th>
+                        <th>Blog Sites</th>
+                        <th>Views</th>
+                    </tr>
+                    {% for country in countries %}
+                    <tr>
+                        <td>{{ country.display_value }}</td>
+                        <td>{{ country.blog_site_count }}</td>
+                        <td>{{ country.views }}</td>
+                    </tr>
+                    {% empty %}
+                        <p>There are no countries.</p>
+                    {% endfor %}
+                  </table>
+                </div>
+            </div>
+
+            <!--Second Report -->
+            <div id="report-2" class="col-md-8 col-md-offset-1 report-section hidden">
+                <div class="col-md-8 col-md-offset-1">
+                  <!-- Table -->
+                  <table class="table blog-search-table">
+                    <tr>
+                        <th>Category</th>
+                        <th>Blog Sites</th>
+                        <th>Views</th>
+                    </tr>
+                    {% for category in categories %}
+                    <tr>
+                        <td>{{ category.display_value }}</td>
+                        <td>{{ category.blog_site_count }}</td>
+                        <td>{{ category.views }}</td>
+                    </tr>
+                    {% empty %}
+                        <p>There are no categories :O</p>
+                    {% endfor %}
+                  </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+{% endblock %}

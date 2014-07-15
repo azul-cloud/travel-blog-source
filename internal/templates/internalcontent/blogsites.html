@@ -1,0 +1,22 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-3">
+            <div style="padding-top: 20px; padding-left: 20px;">
+                List of new blog sites to review:<br>
+                {% for site in newblogsites %}
+                    <a href="/internal/blogsites/{{ site.id }}/">{{ site.site_name }}</a><br>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="submission-form-content col-md-6 col-md-offset-1">
+            <form action="" method="post" class="submission-form">
+                <table>
+                  {{ form.as_table }}
+                </table>
+                <input type="submit" class="btn btn-info submission-btn" value="Save Blogsite">{% csrf_token %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

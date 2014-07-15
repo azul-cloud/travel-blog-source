@@ -1,0 +1,24 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+<div class="jumbotron text-center">
+<h1>Reports Home</h1>
+</div>
+<div class="row">
+    <div class="col-md-3 col-md-offset-1">
+      <h1><b>My</b> Blog Site stats</h1>
+      <p>Stats that are specific to your blog site</p>
+      <p><a class="btn btn-info" href="/reports/myblog/">Take me there!</a></p>
+    </div>
+    <div class="col-md-4">
+      <h1><b>General</b> Blog Site stats</h1>
+      <p>Aggregate statistics throughout all blog sites</p>
+      <p><a class="btn btn-info" href="/reports/allblogs/">Take me there!</a></p>
+    </div>
+    <div class="col-md-3">
+      <h1>Blog <b>Search</b> stats</h1>
+      <p>Statistics about what readers are searching for</p>
+      <p><a class="btn btn-info" href="/reports/blogsearch/">Take me there!</a></p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+        <div id="container">
+            <div class="col-md-8 col-md-offset-2" style="padding-bottom:20px;">
+                {% if error %}
+                    <h2>
+                        Error: {{ error.error_desc }}
+                    </h2>
+                    <h4>
+                        {{ error.error_text|safe }}
+                    </h4>
+                    {{ form.errors }}
+                    {{ form.non_field_errors }}
+                {% else %}
+                    <h4>We aren't sure what your error is. O_O</h4>
+                {% endif %}
+            </div>
+        </div>
+{% endblock %}

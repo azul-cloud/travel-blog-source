@@ -1,0 +1,72 @@
+<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+  <div class="navbar-inverse">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/"><img src="/static/img/icons/tbs_logo_transparent_inverse_thick.gif"
+        style="max-height:30px; margin-top:10px; margin-left:10px"/></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="myheader nav navbar-nav">
+          <li><a href="/">Home</a></li>
+          <li><a href="/blogsearch/">Search</a></li>
+          <li><a href="/blogowner/">Blog Owner</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Information<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/about/">About</a></li>
+              <li><a href="/contact/">Contact</a></li>
+              <li><a href="/help/">Help Me!</a></li>
+            </ul>
+          </li>
+          <li ><a href="/feedback/">Feedback</a></li>
+          <!-- <li ><a href="/testing/">Testing</a></li> -->
+          <li class="fb-like" data-href="https://facebook.com/travelblogsource" data-layout="button_count" data-action="like" data-show-faces="false"
+            data-share="true"></li>
+        </ul>
+
+      <ul class="nav navbar-nav pull-right">
+      {% if user.is_authenticated %}
+        <li><a>Welcome, {{ user.first_name }}!</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-asterisk"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="/blogowner/updatesites/">Edit Blog Sites</a></li>
+                <li><a href="/accounts/profile/">Edit Profile</a></li>
+                <li class="divider"></li>
+                <li><a href="/accounts/logout/">Logout</a></li>
+            </ul>
+        </li>
+      {% else %}
+      <li><a href="/accounts/register/">Sign Up</a></li>
+      <li class="divider-vertical"></li>
+      <li class="dropdown" >
+        <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
+        <div class="dropdown-menu" style="padding: 0px 15px 15px 15px; max-height:400px;" >
+          <form action="" method="post" class="submission-form">
+              {% if form.errors %}
+                <p class="error">Sorry, that's not a valid username or password</p>
+              {% endif %}
+                <label for="username">User name:</label>
+                <input type="text" name="username" id="username">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password">
+                <input type="submit" style="margin-top:20px;" class="btn btn-info" value="login" formaction="/accounts/login/" />{% csrf_token %}
+                <h3 class="text-center">OR</h3>
+                <a href="{% url socialauth_begin "facebook" %}"><img class="fb-btn" src="/static/img/fb_btn.png"/></a>
+                <input type="hidden" name="next" value="{{ next|escape }}" />
+          </form>
+        </div>
+      </li>
+        {% endif %}
+    </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

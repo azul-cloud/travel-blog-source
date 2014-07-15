@@ -1,0 +1,51 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('.blog-site-link').click(function() {
+            id = (this).id
+            //alert("the link for " + id + " was clicked");
+
+            $.post(
+               "/blogsearch/blogsiteclick/",
+                {
+    				"blog_id" : {{ blog.blog_site.id }},
+    				"origin" : "POST",
+    				"sponsor" : "BLOG"
+    			},
+                function(data) {
+                  alert("Response: " + data);
+                },
+        		'json'
+            );
+        });
+      });
+    </script>
+    <div id="fb-root"></div>
+    <div class="row">
+        <div class="col-md-offset-1 col-md-7 blog-content">
+            <div class="blog-title">
+                <h1 class="text-center">{{ blog.title }}</h1>
+            </div>
+            <img src="{{ blog.image.url }}" class="blog-post-main-pic"/>
+            <div class="blog-text">
+                {% if blog.blog_site %}
+                    <h4 >This post brought to you by <a class="blog-site-link" href='{{ blog.blog_site.url }}' target="_blank">{{ blog.blog_site.site_name }}</a></h4>
+                {% endif %}
+                {{ blog.body|safe }}
+                {% if blog.blog_site %}
+                    {% if blog.blog_site.facebook %}<div class="fb-like" data-href="https://facebook.com/{{ blog.blog_site.facebook }}" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>{% endif %}
+                    <h4>For more posts like this one, visit <a class="blog-site-link" href='{{ blog.blog_site.url }}' target="_blank">{{ blog.blog_site.site_name }}</a></h4><br>
+                {% endif %}
+                <h4>Search more in <a href="/blogsearch/region/{{ blog.region.value }}">{{ blog.region.display_value }}</a></h4>
+            </div>
+        </div>
+        <div class="col-md-offset-1 col-md-3 blog-twitter">
+            <h3><a href="/blogsearch/region/{{ blog.region.value }}/" class="btn btn-info">Return to {{ blog.region.display_value }}</a></h3>
+                <a class="twitter-timeline" href="https://twitter.com/TravelBlogSrc" data-widget-id="410152732155056128">Tweets by @TravelBlogSrc</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            </div>
+        </div>
+    </div>
+{% endblock %}

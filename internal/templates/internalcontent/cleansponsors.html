@@ -1,0 +1,10 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+    <p>The following blog sites have had their sponsorship removed:</p>
+    <ul>
+        {% for blog_site in expired %}
+            <li>{{ blog_site.site_name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

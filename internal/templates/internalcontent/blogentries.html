@@ -1,0 +1,33 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-3">
+            <div style="padding-top: 20px; padding-left: 20px;">
+                List of new blog entries to review:<br>
+                {% for entry in newblogentries %}
+                    <a href="/internal/blogentries/{{ entry.id }}/">{{ entry.title }}</a><br>
+                {% endfor %}
+            </div>
+            <div class="submission-form-content">
+                {% if blogentrypay %}This region requires payment for blog entries{% endif %}
+                <form action="" method="post" class="submission-form">
+                    <table>
+                      {{ form.as_table }}
+                    </table>
+                    {% if lastactive %}<p>The last active blog entry for this region is {{ lastactive.active_date }}</p>{% endif %}
+                    <input type="submit" class="btn btn-info submission-btn" value="Save Blog Entry">{% csrf_token %}
+                </form>
+            </div>
+        </div>
+        <div class="col-md-offset-2 col-md-7 blog-content">
+            <div class="blog-title">
+                <h1 class="text-center">{{ singleentry.title }}</h1>
+            </div>
+            <div class="blog-text">
+                <img src="{{ singleentry.image.url }}" class="blog-post-main-image"/>
+                {{ singleentry.body|safe }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

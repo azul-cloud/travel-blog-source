@@ -1,0 +1,14 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-2 col-md-offset-1">
+            <a href="/internal/cleansponsors/">Clean Sponsors</a><br>
+            <a href="/internal/sponsorhistory/">Sponsor History</a><br>
+            <a href="/internal/bannerpics/">Banner Pics</a> {{ newbannerpics.count }}<br>
+            <a href="/internal/blogentries/">Blog Entries</a> {{ newblogentries.count }}<br>
+            <a href="/internal/feedback/">Feedback</a> {{ newfeedback.count }}<br>
+            <a href="/internal/blogsites/">Blog Sites </a> {{ newblogsites.count }}
+        </div>
+    </div>
+{% endblock %}

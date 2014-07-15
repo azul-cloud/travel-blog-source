@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <div id="email-body" style="padding: 20px; border: solid 5px #5bc0de; border-radius: 4px;">
+        <img style="text-align: center;" src="{{ webURLroot }}static/img/icons/tbs_logo.jpg"/>
+        <h1>Welcome {{ user.first_name }}!</h1>
+        <p>
+           Good news! You are almost done with registration. Just click <a href="{{ webURLroot }}/accounts/verifyemail/{{ user.password }}/">here</a> to verify your email. Thank you, and enjoy Travel Blog Source!
+        </p>
+    </div>
+</body>
+</html>

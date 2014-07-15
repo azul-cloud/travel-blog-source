@@ -1,0 +1,72 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+    <a href="http://stepsofatraveler.com"><img src="/static/img/banners/home_2013_09_28.jpg" class="banner-pic"
+        alt="Search Travel Blogs - Tayrona National Park Colombia"></a>
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-5 col-md-offset-half">
+          <h1 class="text-center">Find Travel Blogs</h1>
+          <p>Our goal is to provide an easy experience to find the
+          travel blogs you are looking for. We group travel blogs throughout the
+          world by continent, country, and by ratings.</p>
+          <div class="text-center">
+            <a class="btn btn-info btn-block" href="/blogsearch/">Begin Your Search</a>
+          </div>
+        </div>
+        <div class="col-md-offset-1 col-md-5">
+          <h1 class="text-center">Grow Travel Blogs</h1>
+          <p>We have a simple solution to register your site, and also have free
+              options to increase traffic and gain new users. It's a win-win
+              situation, there really is nothing to lose.</p>
+          <div class="text-center">
+            <a class="btn btn-info btn-block" href="/blogowner/">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div id="overview-rows">
+    <div class="jumbotron" style="padding:0;">
+        <div class="row row-howitworks">
+            <div class="col-md-6 col-xs-6">
+                <h2 class="text-center">Search</h2>
+                <div class="col-md-offset-2 col-md-8 col-xs-12">
+                    <h3>Find travel blogs you're really looking for.
+                    Search by options such as region, category, description or rating
+                    </h3>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-6">
+                <img class="img-responsive img-circle img-howitworks" alt="Search Travel Blogs" src="/static/img/overview/World.png" />
+            </div>
+        </div>
+        <div class="row row-howitworks inverse-row">
+            <div class="col-md-6">
+                <img class="img-responsive img-circle img-howitworks" alt="Increase Traffic to Travel Blog"
+                    src="/static/img/overview/tree-white.png" />
+            </div>
+            <div class="col-md-6 col-xs-6">
+                <h2 class="text-center">Grow</h2>
+                <div class="col-md-offset-2 col-md-8">
+                    <h3>We want to improve the world of travel blogging for readers and blog
+                        owners alike. By providing tools to stimulate growth, everyone wins.
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="row row-howitworks">
+            <div class="col-md-6 col-xs-6">
+                <div class="col-md-offset-2 col-md-8">
+                    <h2 class="text-center">Community</h2>
+                    <h3>Rate blogs, leave feedback, become active in the travel blogging community.
+                    </h3>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-6">
+                <img class="img-responsive img-circle img-howitworks" alt="Travel Blog Community - Participate and Search Travel Blogs" src="/static/img/overview/community.png" />
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

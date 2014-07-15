@@ -1,0 +1,49 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $(".sponsor-history-table").dataTable();
+      })
+    </script>
+    <div class="internal-content">
+        <div class="jumbotron text-center">
+            <h1>Sponsorship History</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table sponsor-history-table tablesorter">
+                    <thead>
+                        <tr>
+                            <th>Action Date</th>
+                            <th>Blog Site</th>
+                            <th>Old Sponsor Type</th>
+                            <th>Old Begin Date</th>
+                            <th>Old End Date</th>
+                            <th>New Sponsor Type</th>
+                            <th>New Begin Date</th>
+                            <th>New End Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for hist_record in sponsorhistory %}
+                        <tr>
+                            <td>{{ hist_record.action_date }}</td>
+                            <td>{{ hist_record.blog_site }}</td>
+                            <td>{{ hist_record.old_sponsor_type }}</td>
+                            <td>{{ hist_record.old_begin_date }}</td>
+                            <td>{{ hist_record.old_end_date }}</td>
+                            <td>{{ hist_record.new_sponsor_type }}</td>
+                            <td>{{ hist_record.new_begin_date }}</td>
+                            <td>{{ hist_record.new_end_date }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                This is where I can update sponsorship
+            </div>
+        </div>
+    </div>
+{% endblock %}

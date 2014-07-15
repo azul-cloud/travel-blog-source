@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <div id="email-body" style="padding: 20px; border: solid 5px #5bc0de; border-radius: 4px;">
+        <img style="text-align: center;" src="{{ webURLroot }}static/img/icons/tbs_logo.jpg"/>
+        <h1>Congratulations {{ bannerpic.user.firstname }}!</h1>
+        <p>
+            We have reviewed and accepted your banner picture show below - {{ bannerpic.title }}.
+            It will become active on {{ bannerpic.active_date }} and you can find it on the region page for
+            <a href="{{ webURLroot }}blogsearch/region/{{ bannerpic.region.value }}">{{ bannerpic.region.display_value }}</a>.
+        </p>
+        <img style="width: 300px; display: block; padding-top: 10px;"
+            src="{{ webURLroot }}media/region/bannerpic/{{ bannerpic.id }}"/>
+    </div>
+</body>
+</html>

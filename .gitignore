@@ -7,8 +7,4 @@ manage.py
 wsgi.py
 settings.py
 urls.py
-<<<<<<< HEAD
-testhere
-=======
 manage.py
->>>>>>> 2e779fefcba7f8f91e67575bcc0d4ef24f973c0e

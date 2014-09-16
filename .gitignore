@@ -1,5 +1,7 @@
 *.pyc
 migrations/
+media/
 __pycache__/
 settings.py
 urls.py
+manage.py

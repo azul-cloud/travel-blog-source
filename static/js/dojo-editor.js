@@ -1,7 +1,7 @@
 dojo.require("dijit.Editor");
 
 // extra plugins
-dojo.require("dijit._editor.plugins.FontChoice");
+// dojo.require("dijit._editor.plugins.FontChoice");
 // dojo.require("dojox.editor.plugins.TextColor");
 // dojo.require("dojox.editor.plugins.Blockquote");
 dojo.require("dijit._editor.plugins.LinkDialog");
@@ -11,7 +11,7 @@ dojo.require("dijit._editor.plugins.LinkDialog");
 // dojo.require("dojox.editor.plugins.PasteFromWord");
 dojo.require("dijit._editor.plugins.ViewSource");
 // dojo.require("dijit._editor.plugins.FullScreen");
-dojo.require("dojox.editor.plugins.InsertEntity");
+// dojo.require("dojox.editor.plugins.InsertEntity");
 
 // headless plugins
 // dojo.require("dojox.editor.plugins.CollapsibleToolbar");

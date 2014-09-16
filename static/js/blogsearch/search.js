@@ -9,6 +9,7 @@ $(document).ready(function(){
 
     $('.blog-site-link').click(function() {
         id = (this).id
+        //alert("the link for " + id + " was clicked");
         if( $( this ).closest('tr').hasClass("search-highlight") ) {
             sponsor = "HIGH"
         }
@@ -19,7 +20,6 @@ $(document).ready(function(){
             sponsor = "NONE"
         }
 
-        //Record the blogsite click
         $.post(
            "/blogsearch/blogsiteclick/",
             {
@@ -34,7 +34,6 @@ $(document).ready(function(){
         );
     });
 
-    //record the click for bannerclick
     $('.banner-pic').click(function() {
         id = (this).id
         sponsor = "BANNER"

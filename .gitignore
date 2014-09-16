@@ -1,10 +1,7 @@
 *.pyc
 migrations/
-media/
 __pycache__/
-media/
 manage.py
 wsgi.py
 settings.py
-urls.py
 manage.py
